@@ -6,20 +6,19 @@ namespace BootCamp.Chapter1
     {
         public static void Sort(int[] array)
         {
-            if (IsNullArray(array))
+            if (IsNullOrEmptyArray(array))
                 return;
-            
-            int temp;
 
-            for (int i = 0; i < array.Length; i++)                  //For each index of the array...
+            //For each index of the array...
+            for (int i = 0; i < array.Length; i++)
             {
                 for (int j = i + 1; j < array.Length; j++)  
                 {
-                    if (array[j] < array[i])                        //Check if each following index is smaller.
+                    //Check if each following index is smaller.
+                    if (array[j] < array[i])
                     {
-                        temp = array[i];
-                        array[i] = array[j];
-                        array[j] = temp;                            //Swap if so.
+                        //Swap if so.
+                        Swap(array, i, j);
                     }
                 }
             }
@@ -29,17 +28,22 @@ namespace BootCamp.Chapter1
 
         public static void Reverse(int[] array)
         {
-            if (IsNullArray(array))
+            if (IsNullOrEmptyArray(array))
                 return;
             
             int temp;
-            
-            for (int i = 0; i < array.Length / 2; i++)              // only need to iterrate through half of the array to reverse.
+
+            // only need to iterrate through half of the array to reverse.
+            for (int i = 0; i < array.Length / 2; i++)
             {
-                temp = array[i];                                    // Set temp to equal first element
-                array[i] = array[(array.Length - 1) - i];           // set first element to equal last element
-                array[(array.Length - 1) - i] = temp;               // set last element to equal temp, or first element
-            }                                                       // increment i, meaning next loop will swap second and second-last elements etc.
+                // Set temp to equal first element
+                temp = array[i];
+                // set first element to equal last element
+                array[i] = array[(array.Length - 1) - i];
+                // set last element to equal temp, or first element
+                array[(array.Length - 1) - i] = temp;
+                // increment i, meaning next loop will swap second and second-last elements etc.
+            }
             WriteArray(array);
         }
 
@@ -62,20 +66,23 @@ namespace BootCamp.Chapter1
 
         public static int[] RemoveAt(int[] array, int index)
         {
-            if (IsNullArray(array) || index < 0 || index > array.Length - 1)
+            if (IsNullOrEmptyArray(array) || index < 0 || index > array.Length - 1)
                 return array;
 
-            var removeArray = new int[array.Length - 1];                        // Create new array 1 element smaller than original
+            // Create new array 1 element smaller than original
+            var removeArray = new int[array.Length - 1];
 
             for (var i = 0; i < array.Length - 1; i++)
             {
                 if (i == index)
                     break;
-                removeArray[i] = array[i];                                      // Add elements to the new array until we reach index to be removed.
+                // Add elements to the new array until we reach index to be removed.
+                removeArray[i] = array[i];
             }
             for (var i = index; i < array.Length - 1; i++)
             {
-                removeArray[i] = array[i + 1];                                  // Keep adding elements, skipping the specified index.
+                // Keep adding elements, skipping the specified index.
+                removeArray[i] = array[i + 1];
             }
 
             return removeArray;
@@ -90,7 +97,7 @@ namespace BootCamp.Chapter1
 
         public static int[] InsertLast(int[] array, int number)
         {
-            if (IsNullArray(array))             
+            if (IsNullOrEmptyArray(array))             
                 return new[] { number };
 
             array = InsertAt(array, number, array.Length);
@@ -100,43 +107,54 @@ namespace BootCamp.Chapter1
 
         public static int[] InsertAt(int[] array, int number, int index)
         {
-            if (IsNullArray(array) && (index != 0 && index != array.Length))
+            if (IsNullOrEmptyArray(array) && (index != 0 && index != array.Length))
                 return array;
 
-            if (IsNullArray(array))
+            if (IsNullOrEmptyArray(array))
                 return new[] { number };
 
-            var insertArray = new int[array.Length + 1];                        // Create index 1 size bigger than original.
+            // Create index 1 size bigger than original.
+            var insertArray = new int[array.Length + 1];
 
             for (var i = 0; i < index; i++)
             {
-                insertArray[i] = array[i];                                      // Add elements to the new array until we reach the index to be added.
+                // Add elements to the new array until we reach the index to be added.
+                insertArray[i] = array[i];
             }
 
-            insertArray[index] = number;                                        // Add the new specified element.
+            // Add the new specified element.
+            insertArray[index] = number;
 
             for (var i = index; i < array.Length; i++)
             {
-                insertArray[i + 1] = array[i];                                  // continue adding elements from the original array, but 1 index further along in the new one.
+                // continue adding elements from the original array, but 1 index further along in the new one.
+                insertArray[i + 1] = array[i];
             }
             return insertArray;
         }
 
 
-        
 
-        public static void WriteArray(int[] array)      // used to test solutions in console and see what code was outputting.
+        // used to test solutions in console and see what code was outputting.
+        public static void WriteArray(int[] array)
         {
             foreach (var number in array)
                 Console.Write($"{number} ");
             Console.WriteLine();
         }
 
-        public static bool IsNullArray(int[] array)     
+        public static bool IsNullOrEmptyArray(int[] array)     
         {
             if (array == null || array.Length == 0)
                 return true;
             return false;
+        }
+
+        public static void Swap(int[] array, int index1, int index2)
+        {
+            var temp = array[index1];
+            array[index1] = array[index2];
+            array[index2] = temp;
         }
 
     }
